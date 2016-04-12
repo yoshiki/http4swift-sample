@@ -1,5 +1,5 @@
 import Nest
-
+import C7
 
 public protocol PayloadConvertible {
   func toPayload() -> PayloadType
@@ -7,13 +7,13 @@ public protocol PayloadConvertible {
 
 
 class BytesPayload : PayloadType {
-  var bytes: [UInt8]?
+  var bytes: [Byte]?
 
-  init(bytes: [UInt8]) {
+  init(bytes: [Byte]) {
     self.bytes = bytes
   }
 
-  func next() -> [UInt8]? {
+  func next() -> [Byte]? {
     if let bytes = bytes {
       self.bytes = nil
       return bytes
@@ -25,7 +25,7 @@ class BytesPayload : PayloadType {
 
 
 extension String : PayloadConvertible {
-  var bytes: [UInt8] {
+  var bytes: [Byte] {
     return utf8.map { UInt8($0) }
   }
 
