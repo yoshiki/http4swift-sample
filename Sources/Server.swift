@@ -11,7 +11,7 @@ struct Server {
     
     func start(router router: Router) {
         if let server = HTTPServer(port: port) {
-            server.serve({ (request) -> ResponseType in
+            server.serve { (request) -> ResponseType in
                 if let responder = router.match(request) {
                     do {
                         return try responder.respond(to: request)
@@ -21,7 +21,7 @@ struct Server {
                 } else {
                     return Response(.NotFound, contentType: "text/plain; charset=utf8")
                 }
-            })
+            }
         } else {
             fatalError()
         }
