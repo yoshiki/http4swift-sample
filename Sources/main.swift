@@ -1,14 +1,28 @@
 import http4swift
+import Nest
+import Inquiline
 
-let router = Router { route in
+struct SampleResponder: Responder {
+    func respond(to request: RequestType) throws -> ResponseType {
+        return Response(.Ok, headers: nil, contentType: "text/html", content: "sample responder")
+    }
+}
+
+let log = LogMiddleware()
+
+let router = Router(middleware: log) { route in
     route.get("/") { request in
         let content = "foo"
         return Response(.Ok, headers: nil, contentType: "text/html", content: content)
     }
     route.get("/bar") { request in
         let content = "bar"
-        return Response(.Ok, headers: nil, contentType: "text/html", content: content)
+        return Response(.Ok, headers: nil, contentType: "text/html", content: "")
     }
+    route.post("/") { request in
+        return Response(.Ok, content: "posted")
+    }
+    route.get("/sample", responder: SampleResponder())
 }
 
 let app = Server(port: 8080)
