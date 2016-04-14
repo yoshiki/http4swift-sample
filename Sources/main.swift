@@ -19,9 +19,7 @@ let router = Router(middleware: log) { route in
         let content = "bar"
         return Response(.Ok, headers: nil, contentType: "text/html", content: "")
     }
-    route.post("/") { request in
-        return Response(.Ok, content: "posted")
-    }
+    route.post("/", respond: RootController().index)
     route.get("/sample", responder: SampleResponder())
 }
 
